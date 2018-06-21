@@ -104,10 +104,6 @@ public class CustomLinkedList implements ICustomLinkedList {
         return length++;
     }
 
-    public int add(Object newElement, int index) throws IndexOutOfBoundsException {
-        return 0;
-    }
-
     @Override
     public void delete(int index) throws IndexOutOfBoundsException {
 
