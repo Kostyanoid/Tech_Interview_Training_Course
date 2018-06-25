@@ -50,34 +50,20 @@ public class StackByLinkedList implements IStack {
         Arrays.stream(values).forEach(this::push);
     }
 
-    protected Element getHead() {
-        return head;
-    }
-
-    protected void setHead(Element head) {
-        this.head = head;
-    }
-
     @Override
     public void push(Object value) {
-        Element el = Element.of(value);
-        if (head == null) {
-            head = el;
-        } else {
-            head.setNext(el);
-            head = el;
-        }
+        head = head == null ? Element.of(value) : Element.of(value).setNext(head);
         size++;
     }
 
     @Override
-    public Object pop() {
-        if (isEmpty()) return null;
+    public Object pop() throws NoElementsInStackException {
+        if (isEmpty()) throw new NoElementsInStackException();
 
         Element result = head;
-        head = head.next;
+        head = head.getNext();
         size--;
-        return result;
+        return result.getValue();
     }
 
     @Override
@@ -95,11 +81,12 @@ public class StackByLinkedList implements IStack {
         StringBuilder sb = new StringBuilder();
         int i = 1;
         sb.append("{head}=");
-        while (head != null) {
+        Element nextEl = head;
+        while (nextEl != null) {
 //            sb.append("El_").append(i).append(": ");
-            sb.append(head.getValue()).append(" -> ");
+            sb.append(nextEl.getValue()).append(" -> ");
             i++;
-            head = head.next;
+            nextEl = nextEl.getNext();
         }
         sb.append("{end}");
         return sb.toString();
