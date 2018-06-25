@@ -85,7 +85,6 @@ public class StackByLinkedList implements IStack {
         while (nextEl != null) {
 //            sb.append("El_").append(i).append(": ");
             sb.append(nextEl.getValue()).append(" -> ");
-            i++;
             nextEl = nextEl.getNext();
         }
         sb.append("{end}");
