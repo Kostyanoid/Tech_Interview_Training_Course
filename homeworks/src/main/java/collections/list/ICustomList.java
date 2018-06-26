@@ -1,4 +1,4 @@
-package collections;
+package collections.list;
 
 public interface ICustomList {
     int add(Object newElement);

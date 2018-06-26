@@ -1,11 +1,8 @@
-package stack;
+package collections.queue;
 
-import java.util.*;
+import java.util.Arrays;
 
-public class StackByLinkedList implements IStack {
-
-    private Element head;
-    private int size;
+public class CustomQueue implements IQueue {
 
     private static class Element {
         private Object value;
@@ -43,27 +40,56 @@ public class StackByLinkedList implements IStack {
         }
     }
 
+    private Element head;
+    private Element tail;
+    private int size;
 
-    public StackByLinkedList() {}
+    public CustomQueue() {
+    }
 
-    public StackByLinkedList(Object[] values) {
-        Arrays.stream(values).forEach(this::push);
+    public CustomQueue(Object[] values) {
+        Arrays.stream(values).forEach(this::offer);
     }
 
     @Override
-    public void push(Object value) {
-        head = head == null ? Element.of(value) : Element.of(value).setNext(head);
+    public void offer(Object value) {
+        Element newElement = Element.of(value);
+        if (head == null) {
+            head = newElement;
+            tail = newElement;
+        }
+        tail.setNext(newElement);
+        tail = newElement;
         size++;
     }
 
     @Override
-    public Object pop() throws NoElementsInStackException {
-        if (isEmpty()) throw new NoElementsInStackException();
-
-        Element result = head;
+    public Object poll() {
+        if (isEmpty()) return null;
+        Element polled = head;
         head = head.getNext();
         size--;
-        return result.getValue();
+        return polled.getValue();
+    }
+
+    @Override
+    public Object remove() throws NoElementsInQueueException {
+        if (isEmpty()) throw new NoElementsInQueueException();
+        Element polled = head;
+        head = head.getNext();
+        size--;
+        return polled.getValue();
+    }
+
+    @Override
+    public Object peek() {
+        return isEmpty() ? null : head.getValue();
+    }
+
+    @Override
+    public Object element() throws NoElementsInQueueException {
+        if (isEmpty()) throw new NoElementsInQueueException();
+        return head.getValue();
     }
 
     @Override
@@ -76,18 +102,18 @@ public class StackByLinkedList implements IStack {
         return size == 0;
     }
 
+    @Override
     public String toString() {
         if (size == 0) return "{empty}";
+        if (size == 1) return "{head}=" + head.getValue() + " -> {tail}";
         StringBuilder sb = new StringBuilder();
-        int i = 1;
         sb.append("{head}=");
         Element nextEl = head;
         while (nextEl != null) {
-//            sb.append("El_").append(i).append(": ");
             sb.append(nextEl.getValue()).append(" -> ");
             nextEl = nextEl.getNext();
         }
-        sb.append("{end}");
+        sb.append("{tail}");
         return sb.toString();
     }
 }

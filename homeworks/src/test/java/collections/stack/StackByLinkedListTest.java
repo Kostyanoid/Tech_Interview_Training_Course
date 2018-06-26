@@ -1,11 +1,11 @@
-package stack;
+package collections.stack;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class StackByArrayTest {
+class StackByLinkedListTest {
 
     @DisplayName("Push several values into the stack")
     @Test
@@ -17,7 +17,7 @@ class StackByArrayTest {
         String el4 = "'4'";
         String el5 = "'5'";
 
-        StackByArray stack = new StackByArray();
+        IStack stack = new StackByLinkedList();
         stack.push(el1);
         stack.push(el2);
         stack.push(el3);
@@ -31,8 +31,8 @@ class StackByArrayTest {
     @DisplayName("Check for empty stack")
     @Test
     void emptyStack() {
-        System.out.println("Check for empty stack:");
-        StackByArray stack = new StackByArray();
+        System.out.println("Check for empty collections.stack:");
+        IStack stack = new StackByLinkedList();
         assertTrue(stack.isEmpty());
         System.out.println(stack.toString());
     }
@@ -42,7 +42,7 @@ class StackByArrayTest {
     void pushNullValues() {
         System.out.println("Push null values into the stack:");
         Object[] values = new Object[] {"'1'", null, "'3'", null, null};
-        StackByArray stack = new StackByArray(values);
+        IStack stack = new StackByLinkedList(values);
         assertEquals(5, stack.size());
         System.out.println(stack.toString());
     }
@@ -52,7 +52,7 @@ class StackByArrayTest {
     void popOneValue() {
         System.out.println("Pop one value:");
         Object[] values = new Object[] {"'1'", null, "'3'", null, "'6'"};
-        StackByArray stack = new StackByArray(values);
+        IStack stack = new StackByLinkedList(values);
         System.out.println(stack.toString());
 
         Object received = stack.pop();
@@ -67,7 +67,7 @@ class StackByArrayTest {
     void popAllValues() {
         System.out.println("Pop all values from the stack:");
         Object[] values = new Object[] {"'1'", "'2'", "'3'", null, "'6'"};
-        StackByArray stack = new StackByArray(values);
+        IStack stack = new StackByLinkedList(values);
         System.out.println(stack.toString());
 
         while (!stack.isEmpty()) {
@@ -82,7 +82,7 @@ class StackByArrayTest {
     @Test
     void popFromEmptyStack() {
         System.out.println("Pop from empty stack:");
-        StackByArray stack = new StackByArray();
+        IStack stack = new StackByLinkedList();
         System.out.println(stack.toString());
 
         assertThrows(NoElementsInStackException.class, stack::pop);
@@ -94,7 +94,7 @@ class StackByArrayTest {
     void pushAndPopAllValues() {
         System.out.println("Push and pop values from the stack:");
         Object[] values = new Object[] {"'1'", "'2'", "'3'", "'4'", "'5'"};
-        StackByArray stack = new StackByArray();
+        IStack stack = new StackByLinkedList();
         System.out.println(stack.toString());
 
         System.out.println("Push: " + values[0]);
@@ -129,19 +129,4 @@ class StackByArrayTest {
         assertEquals(1, stack.size());
         System.out.println(stack.toString());
     }
-
-    @DisplayName("Push more than capacity values")
-    @Test
-    void pushMoreThanCapacityValues() {
-        System.out.println("Push more than capacity values:");
-        StackByArray stack = new StackByArray();
-        for (int i = 0; i < 15; i++) {
-            stack.push(i);
-            System.out.println("Pushed value: " + i + ", capacity = " + stack.getCapacity());
-            System.out.println(stack.toString());
-        }
-        assertEquals(12 * 3 / 2, stack.getCapacity());
-        assertEquals(15, stack.size());
-    }
-
 }

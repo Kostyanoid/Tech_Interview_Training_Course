@@ -1,6 +1,4 @@
-package stack;
-
-import java.util.Arrays;
+package collections.stack;
 
 public class StackByArray implements IStack {
 
