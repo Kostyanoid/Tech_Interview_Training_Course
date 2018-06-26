@@ -32,8 +32,7 @@ public class StackByArray implements IStack {
     @Override
     public void push(Object value) {
         if (size == capacity) resizeElementsArray(capacity * 3 / 2);
-        elements[size] = value;
-        size++;
+        elements[size++] = value;
     }
 
     private void resizeElementsArray(int newCapacity) {
@@ -55,8 +54,7 @@ public class StackByArray implements IStack {
     @Override
     public Object pop() throws NoElementsInStackException {
         if (isEmpty()) throw new NoElementsInStackException();
-        size--;
-        return elements[size];
+        return elements[--size];
     }
 
     @Override
