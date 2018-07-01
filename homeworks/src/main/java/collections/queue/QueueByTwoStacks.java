@@ -38,9 +38,7 @@ public class QueueByTwoStacks implements IQueue {
         if (isEmpty()) return null;
         if (stackPoll.isEmpty())
             while (!stackOffer.isEmpty()) stackPoll.push(stackOffer.pop());
-        Object result = stackPoll.pop();
-        stackPoll.push(result);
-        return result;
+        return stackPoll.peek();
     }
 
     @Override

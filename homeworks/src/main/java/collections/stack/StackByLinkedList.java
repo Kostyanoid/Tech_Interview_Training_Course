@@ -67,6 +67,11 @@ public class StackByLinkedList implements IStack {
     }
 
     @Override
+    public Object peek() {
+        return head != null ? head.value : null;
+    }
+
+    @Override
     public int size() {
         return size;
     }

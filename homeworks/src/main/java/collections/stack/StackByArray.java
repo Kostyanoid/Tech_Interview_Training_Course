@@ -56,6 +56,11 @@ public class StackByArray implements IStack {
     }
 
     @Override
+    public Object peek() {
+        return size > 0 ? elements[size - 1] : null;
+    }
+
+    @Override
     public int size() {
         return size;
     }
