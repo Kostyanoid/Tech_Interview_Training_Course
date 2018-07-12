@@ -15,7 +15,7 @@ public class MergeDownSort implements MergeSortArrayAlg {
         int med = first + (last - first) / 2;
         mergeSort(subArray, first, med);
         mergeSort(subArray, med + 1, last);
-        mergeInPlace(subArray, first, med, med + 1, last);
+        merge(subArray, first, med,  last);
     }
 
 }

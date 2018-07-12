@@ -14,7 +14,7 @@ public class MergeUpSort implements MergeSortArrayAlg {
         if (len >= array.length) return;
         int last = Math.min(first + 2 * len  - 1, array.length - 1);
         while (first + len < array.length) {
-            mergeInPlace(array, first, first + len - 1, first + len, last);
+            merge(array, first, first + len - 1,  last);
             first = last + 1;
             last = Math.min(first + 2 * len  - 1, array.length - 1);
         }
