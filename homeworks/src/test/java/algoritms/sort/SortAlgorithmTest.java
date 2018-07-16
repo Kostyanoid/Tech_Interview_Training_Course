@@ -78,9 +78,26 @@ public class SortAlgorithmTest {
         System.out.println("before: " + Arrays.toString(array));
 
         sortAlg.sort(array);
+        System.out.println("after: " + Arrays.toString(array));
+        assertArrayEquals(etalonArray, array);
+
+    }
+
+    @Test
+    @DisplayName("Sort fixed integers array")
+    void sortFixedIntegersArray() {
+        System.out.println("\nSort fixed integers array:");
+        Comparable[] array = new Integer[] {4, 7, 5, 1, 3, 5, 2, 8, 5, 9};
+
+        Comparable[] etalonArray = new Integer [] {1, 2, 3, 4, 5, 5, 5, 7, 8, 9};
+
+        System.out.println("before: " + Arrays.toString(array));
+
+        sortAlg.sort(array);
+        System.out.println("after: " + Arrays.toString(array));
 
         assertArrayEquals(etalonArray, array);
-        System.out.println("after: " + Arrays.toString(array));
+
     }
 
     @ParameterizedTest
@@ -101,9 +118,9 @@ public class SortAlgorithmTest {
         System.out.println("before: " + Arrays.toString(array));
 
         sortAlg.sort(array);
-
-        assertArrayEquals(etalonArray, array);
         System.out.println("after: " + Arrays.toString(array));
+        assertArrayEquals(etalonArray, array);
+
     }
 
     @Test

@@ -1,0 +1,48 @@
+package algoritms.bolts_and_nuts;
+
+import algoritms.sort.ShuffleArray;
+import algoritms.sort.ShuffleArrayAlg;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
+import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class BoltsAndNutsMatcherTest {
+
+    private ShuffleArrayAlg shuffleAlg = new ShuffleArray();
+    private BoltsAndNutsMatcher  matcher = new BoltsAndNutsMatcher();
+
+    @ParameterizedTest
+    @CsvSource({"6"})
+    @DisplayName("Match for random arrays")
+    void match(int N) {
+        Bolt[] bolts = new Bolt[N];
+        Nut[] nuts = new Nut[N];
+        for (int i = 0; i < N; i++) {
+            bolts[i] = new Bolt(i + 1);
+            nuts[i] = new Nut(i + 1);
+        }
+
+        Bolt[] etalonBolts = new Bolt[N];
+        Nut[] etalonNuts = new Nut[N];
+
+        System.arraycopy(bolts, 0, etalonBolts, 0, N);
+        System.arraycopy(nuts, 0, etalonNuts, 0, N);
+
+        shuffleAlg.shuffle(bolts);
+        shuffleAlg.shuffle(nuts);
+
+        System.out.println("Bolts before matching: " + Arrays.toString(bolts));
+        System.out.println("Nuts before matching: " + Arrays.toString(nuts));
+        matcher.match(bolts, nuts);
+        System.out.println("Bolts after matching: " + Arrays.toString(bolts));
+        System.out.println("Nuts after matching: " + Arrays.toString(nuts));
+
+        assertArrayEquals(etalonBolts, bolts);
+        assertArrayEquals(etalonNuts, nuts);
+    }
+}
