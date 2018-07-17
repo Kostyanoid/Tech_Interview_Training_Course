@@ -17,7 +17,7 @@ class BoltsAndNutsMatcherTest {
     private BoltsAndNutsMatcher  matcher = new BoltsAndNutsMatcher();
 
     @ParameterizedTest
-    @CsvSource({"6"})
+    @CsvSource({"5", "11", "128"})
     @DisplayName("Match for random arrays")
     void match(int N) {
         Bolt[] bolts = new Bolt[N];
@@ -44,5 +44,21 @@ class BoltsAndNutsMatcherTest {
 
         assertArrayEquals(etalonBolts, bolts);
         assertArrayEquals(etalonNuts, nuts);
+    }
+
+    @Test
+    @DisplayName("Match for fixed arrays, size = 5")
+    public void matchFixedArrays() {
+        Bolt[] bolts = new Bolt[] {new Bolt(2), new Bolt(5), new Bolt(3), new Bolt(1), new Bolt(4)};
+        Nut[] nuts = new Nut[] {new Nut(4), new Nut(1), new Nut(3), new Nut(5), new Nut(2)};
+
+        System.out.println("Bolts before matching: " + Arrays.toString(bolts));
+        System.out.println("Nuts before matching: " + Arrays.toString(nuts));
+        matcher.match(bolts, nuts);
+        System.out.println("Bolts after matching: " + Arrays.toString(bolts));
+        System.out.println("Nuts after matching: " + Arrays.toString(nuts));
+
+        for (int i = 0; i < bolts.length; i++)
+            assertEquals(0, bolts[i].compareTo(nuts[i]));
     }
 }
