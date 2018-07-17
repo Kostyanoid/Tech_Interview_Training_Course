@@ -36,10 +36,11 @@ public class BoltsAndNutsMatcher implements Swapable {
         int i = lo - 1;
         int j = hi + 1;
 
-        Integer equalBoltIndex = null;
+        Bolt equalBolt = null;
 
         while (i < j) {
-            while (bolts[++i].compareTo(nut) < 0) {
+            while (bolts[++i].compareTo(nut) <= 0) {
+                if (bolts[i].compareTo(nut) == 0) equalBolt = bolts[i];
                 if (i >= hi) break;
             }
 
@@ -49,14 +50,13 @@ public class BoltsAndNutsMatcher implements Swapable {
 
             if (i >= j) break;
 
+            if (bolts[j].compareTo(nut) == 0) equalBolt = bolts[j];
             swap(bolts, i, j);
-            if (bolts[i].compareTo(nut) == 0) equalBoltIndex = i;
-            if (bolts[j].compareTo(nut) == 0) equalBoltIndex = j;
+
         }
 
-        assert equalBoltIndex != null;
-        swap(bolts, equalBoltIndex, j);
-        return bolts[j];
+        assert equalBolt != null;
+        return equalBolt;
     }
 
     private int sortNuts(Nut[] nuts, int lo, int hi, Bolt bolt) {
@@ -68,7 +68,7 @@ public class BoltsAndNutsMatcher implements Swapable {
         Integer equalNutIndex = null;
 
         while (i < j) {
-            while (nuts[++i].compareTo(bolt) < 0) {
+            while (nuts[++i].compareTo(bolt) <= 0) {
                 if (i >= hi) break;
             }
             while (nuts[--j].compareTo(bolt) > 0) {
@@ -78,11 +78,9 @@ public class BoltsAndNutsMatcher implements Swapable {
             if (i >= j) break;
 
             swap(nuts, i, j);
-            if (nuts[j].compareTo(bolt) == 0) equalNutIndex = j;
-            if (nuts[i].compareTo(bolt) == 0) equalNutIndex = i;
+
         }
 
-        assert equalNutIndex != null;
         return j;
     }
 }
