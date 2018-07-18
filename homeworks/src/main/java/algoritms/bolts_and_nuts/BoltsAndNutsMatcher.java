@@ -23,64 +23,44 @@ public class BoltsAndNutsMatcher implements Swapable {
 
     private void sort(Bolt[] bolts, Nut[] nuts, int lo, int hi) {
         if (lo > hi - 1) return;
+
         Nut n = nuts[lo];
-        Bolt b = sortBolts(bolts, lo, hi, n);
-        int mid = sortNuts(nuts, lo, hi, b);
+
+        int equalsBoltIndex = partitioning(bolts, lo, hi, n);
+        Bolt equalsBolt = bolts[equalsBoltIndex];
+
+        int mid = partitioning(nuts, lo, hi, equalsBolt);
+
         sort(bolts, nuts, lo , mid);
         sort(bolts, nuts, mid + 1, hi);
     }
 
-    private Bolt sortBolts(Bolt[] bolts, int lo, int hi, Nut nut) {
-        if (lo >= hi) return bolts[lo];
-
-        int i = lo - 1;
-        int j = hi + 1;
-
-        Bolt equalBolt = null;
-
-        while (i < j) {
-            while (bolts[++i].compareTo(nut) <= 0) {
-                if (bolts[i].compareTo(nut) == 0) equalBolt = bolts[i];
-                if (i >= hi) break;
-            }
-
-            while (bolts[--j].compareTo(nut) > 0) {
-                if (j < lo + 1) break;
-            }
-
-            if (i >= j) break;
-
-            if (bolts[j].compareTo(nut) == 0) equalBolt = bolts[j];
-            swap(bolts, i, j);
-
-        }
-
-        assert equalBolt != null;
-        return equalBolt;
-    }
-
-    private int sortNuts(Nut[] nuts, int lo, int hi, Bolt bolt) {
+    private <T> int partitioning(Comparable<T>[] values, int lo, int hi, T pivot) {
         if (lo >= hi) return lo;
 
         int i = lo - 1;
         int j = hi + 1;
 
-        Integer equalNutIndex = null;
+        int equalPivotIndex = -1;
 
         while (i < j) {
-            while (nuts[++i].compareTo(bolt) <= 0) {
+            while (values[++i].compareTo(pivot) <= 0) {
+                if (values[i].compareTo(pivot) == 0) equalPivotIndex = i;
                 if (i >= hi) break;
             }
-            while (nuts[--j].compareTo(bolt) > 0) {
+            while (values[--j].compareTo(pivot) > 0) {
                 if (j < lo + 1) break;
             }
 
             if (i >= j) break;
 
-            swap(nuts, i, j);
-
+            swap(values, i, j);
+            if (values[i].compareTo(pivot) == 0) equalPivotIndex = i;
         }
 
+        assert equalPivotIndex != -1;
+
+        swap(values, equalPivotIndex, j);
         return j;
     }
 }

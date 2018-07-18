@@ -61,4 +61,21 @@ class BoltsAndNutsMatcherTest {
         for (int i = 0; i < bolts.length; i++)
             assertEquals(0, bolts[i].compareTo(nuts[i]));
     }
+
+    @Test
+    @DisplayName("Match for empty arrays")
+    public void matchForEmptyArrays() {
+        Bolt[] bolts = new Bolt[0];
+        Nut[] nuts = new Nut[0];
+
+        System.out.println("Bolts before matching: " + Arrays.toString(bolts));
+        System.out.println("Nuts before matching: " + Arrays.toString(nuts));
+        matcher.match(bolts, nuts);
+        System.out.println("Bolts after matching: " + Arrays.toString(bolts));
+        System.out.println("Nuts after matching: " + Arrays.toString(nuts));
+
+        for (int i = 0; i < bolts.length; i++)
+            assertEquals(0, bolts[i].compareTo(nuts[i]));
+    }
+
 }
