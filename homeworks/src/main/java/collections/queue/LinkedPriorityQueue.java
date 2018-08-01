@@ -193,14 +193,6 @@ public class LinkedPriorityQueue<E extends Comparable<E>> implements IPriorityQu
         return size == 0;
     }
 
-    public boolean isFull() {
-        return size == capacity;
-    }
-
-    private boolean hasNoLeafs(Node<E> node) {
-        return node != null && (node.getLeft() == null && node.getRight() == null);
-    }
-
     private Node<E> getNext() {
         int m = size + 1;
         Node<E> next = head;
