@@ -1,7 +1,5 @@
 package collections.queue;
 
-import algoritms.sort.Swapable;
-
 import java.util.Iterator;
 import java.util.Objects;
 
@@ -96,7 +94,7 @@ public class LinkedPriorityQueue<E extends Comparable<E>> implements IPriorityQu
     private static final int DEFAULT_CAPACITY = 10;
     private static final int DEFAULT_ORDER = ASCENDING;
     private Node<E> head;
-    private Node<E> next;
+    private Node<E> last;
     private int size;
     private int capacity;
     private int order;
@@ -143,17 +141,46 @@ public class LinkedPriorityQueue<E extends Comparable<E>> implements IPriorityQu
 
     @Override
     public void insert(E element) {
+        Objects.requireNonNull(element);
+        if (isEmpty()) {
+            head.setValue(element);
+            last = head;
+            size = 1;
+        } else {
+            Node<E> newNode = getNext();
+            newNode.setValue(element);
+            bobUp(newNode);
 
+            if (size > capacity) {
+                if (newNode.getTop().getLeft() == newNode) {
+                    newNode.getTop().setLeft(null);
+                } else {
+                    newNode.getTop().setRight(null);
+                }
+                size--;
+            }
+        }
     }
 
     @Override
     public E poll() {
-        return null;
+        return head != null ? head.getValue() : null;
     }
 
     @Override
     public E remove() {
-        return null;
+        E removing = head.value;
+        if (size == 1) {
+            size--;
+            head = null;
+            last = null;
+        } else {
+            swap(head, last);
+            sink(head);
+            removeLast();
+        }
+
+        return removing;
     }
 
     @Override
@@ -166,6 +193,66 @@ public class LinkedPriorityQueue<E extends Comparable<E>> implements IPriorityQu
         return size == 0;
     }
 
+    public boolean isFull() {
+        return size == capacity;
+    }
+
+    private boolean hasNoLeafs(Node<E> node) {
+        return node != null && (node.getLeft() == null && node.getRight() == null);
+    }
+
+    private Node<E> getNext() {
+        int m = size + 1;
+        Node<E> next = head;
+
+        while (m >>> 1 > 1) {
+            if (m % 2 == 0) next = next.getLeft();
+            else next = next.getRight();
+            m = m >>> 1;
+        }
+
+        Node<E> newNode = new Node<>();
+        newNode.setTop(next);
+
+        if (m % 2 == 0) {
+            next.setLeft(newNode);
+        } else {
+            next.setRight(newNode);
+        }
+
+        last = newNode;
+        size++;
+        return newNode;
+    }
+
+    private Node<E> findLast() {
+        int m = size;
+        Node<E> next = head;
+
+        while (m >>> 1 > 1) {
+            if (m % 2 == 0) next = next.getLeft();
+            else next = next.getRight();
+            m = m >>> 1;
+        }
+
+        if (m % 2 == 0) {
+            return next.getLeft();
+        } else {
+            return next.getRight();
+        }
+    }
+
+    private void removeLast() {
+        Node<E> lastTop = last.getTop();
+        if (lastTop.getLeft() == last) {
+            lastTop.setLeft(null);
+        } else {
+            lastTop.setRight(null);
+        }
+        last = findLast();
+        size--;
+    }
+
     private void bobUp(Node<E> element) {
         while (element.getTop() != null
                 && element.getTop().getValue().compareTo(element.getValue()) * order > 0) {
@@ -175,7 +262,6 @@ public class LinkedPriorityQueue<E extends Comparable<E>> implements IPriorityQu
     }
 
     private void sink(Node<E> element) {
-
         while (element.getLeft() != null && element.compareTo(element.getLeft()) * order < 0
             || element.getRight() != null && element.compareTo(element.getRight()) * order < 0) {
             if (element.getLeft() != null) {
