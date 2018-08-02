@@ -184,6 +184,13 @@ public class LinkedPriorityQueue<E extends Comparable<E>> implements IPriorityQu
     }
 
     @Override
+    public void clear() {
+        size = 0;
+        head = null;
+        last = null;
+    }
+
+    @Override
     public int size() {
         return size;
     }

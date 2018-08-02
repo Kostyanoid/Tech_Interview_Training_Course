@@ -2,6 +2,7 @@ package collections.queue;
 
 import algoritms.sort.Swapable;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 public class  ArrayPriorityQueue<E extends Comparable<E>> implements IPriorityQueue<E>, Swapable {
@@ -77,6 +78,12 @@ public class  ArrayPriorityQueue<E extends Comparable<E>> implements IPriorityQu
         size--;
         sink(1);
         return removing;
+    }
+
+    @Override
+    public void clear() {
+        size = 0;
+        Arrays.stream(elements).forEach(element -> element = null);
     }
 
     @Override
