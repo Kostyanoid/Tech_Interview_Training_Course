@@ -56,7 +56,7 @@ public class  ArrayPriorityQueue<E extends Comparable<E>> implements IPriorityQu
 
     @Override
     public void insert(E element) {
-        Objects.requireNonNull(element);
+        if (element == null) throw  new IllegalArgumentException("Inserting element can not be null.");
         elements[++size] = element;
         if (size > 1) bobUp(size);
         if (size == elements.length - 1) {
@@ -72,7 +72,7 @@ public class  ArrayPriorityQueue<E extends Comparable<E>> implements IPriorityQu
 
     @Override
     public E remove() {
-        E removing = elements[1];
+        E removing = poll();
         swap(elements, 1, size);
         elements[size] = null;
         size--;
@@ -104,7 +104,7 @@ public class  ArrayPriorityQueue<E extends Comparable<E>> implements IPriorityQu
     }
 
     private void sink(int k) {
-        while (2 * k + 1 < size && (less(k, 2 * k) || less(k, 2 * k + 1))) {
+        while (2 * k + 1 <= size + 1 && (less(k, 2 * k) || less(k, 2 * k + 1))) {
             if (less(2 * k, 2 * k + 1)) {
                 swap(elements, k,2 * k + 1);
                 k = 2 * k + 1;
@@ -116,6 +116,7 @@ public class  ArrayPriorityQueue<E extends Comparable<E>> implements IPriorityQu
     }
 
     private boolean less(int i, int j) {
+        if (elements[i] == null || elements[j] == null) return  false;
         return ((E) elements[i]).compareTo((E) elements[j]) < 0;
     }
 }

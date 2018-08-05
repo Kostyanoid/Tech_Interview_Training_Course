@@ -105,4 +105,32 @@ public class ArrayPriorityQueueTest {
         assertEquals(Integer.valueOf(1), pq.remove());
         assertTrue(pq.isEmpty());
     }
+
+    @Test
+    @DisplayName("Create a new priority and insert 10 equal numbers. And then remove MAX 10 times. Expected: size 10, the same number 10 times")
+    void test_9() {
+        IPriorityQueue<Integer> pq = new ArrayPriorityQueue<>(10);
+        for (int i = 0; i < 10; i++) {
+            pq.insert(5);
+        }
+        assertEquals(10, pq.size());
+        assertEquals(Integer.valueOf(5), pq.remove());
+        assertEquals(Integer.valueOf(5), pq.remove());
+        assertEquals(Integer.valueOf(5), pq.remove());
+        assertEquals(Integer.valueOf(5), pq.remove());
+        assertEquals(Integer.valueOf(5), pq.remove());
+        assertEquals(Integer.valueOf(5), pq.remove());
+        assertEquals(Integer.valueOf(5), pq.remove());
+        assertEquals(Integer.valueOf(5), pq.remove());
+        assertEquals(Integer.valueOf(5), pq.remove());
+        assertEquals(Integer.valueOf(5), pq.remove());
+        assertTrue(pq.isEmpty());
+    }
+
+    @Test
+    @DisplayName("Try yo insert 'null' to the priority queue. Excepted: IllegalArgumentException.")
+    void test_10() {
+        IPriorityQueue<Integer> pq = new ArrayPriorityQueue<>(10);
+        assertThrows(IllegalArgumentException.class, () -> pq.insert(null));
+    }
 }

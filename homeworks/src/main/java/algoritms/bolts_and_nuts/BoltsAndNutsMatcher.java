@@ -1,5 +1,6 @@
 package algoritms.bolts_and_nuts;
 
+import algoritms.sort.ShuffleArray;
 import algoritms.sort.SortArrayAlg;
 import algoritms.sort.Swapable;
 
@@ -14,6 +15,9 @@ public class BoltsAndNutsMatcher implements Swapable {
         if (!validate(bolts) || !validate(nuts)) throw new IllegalArgumentException("Some bolts or nuts are null. Impossible to match.");
         if (bolts.length != nuts.length) throw new IllegalArgumentException("There is different amount bolts and nuts.");
 
+        ShuffleArray shuffleArray = new ShuffleArray();
+        shuffleArray.shuffle(bolts);
+        shuffleArray.shuffle(nuts);
         sort(bolts, nuts, 0, bolts.length - 1);
     }
 

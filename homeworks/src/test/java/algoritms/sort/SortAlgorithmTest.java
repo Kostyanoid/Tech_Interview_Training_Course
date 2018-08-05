@@ -61,7 +61,7 @@ public class SortAlgorithmTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"10", "25", "199", "1000"})
+    @CsvSource({"5", "10", "25", "199", "1000"})
     @DisplayName("Sort some integers array")
     void sortSomeIntegersArray(int N) {
         System.out.println("\nSort some integers array:");

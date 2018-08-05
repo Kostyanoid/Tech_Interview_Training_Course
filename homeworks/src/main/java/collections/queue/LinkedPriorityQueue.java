@@ -57,6 +57,10 @@ public class LinkedPriorityQueue<E extends Comparable<E>> implements IPriorityQu
             this.right = right;
         }
 
+        public boolean hasLeaves() {
+            return !(left == null && right == null);
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -141,16 +145,15 @@ public class LinkedPriorityQueue<E extends Comparable<E>> implements IPriorityQu
 
     @Override
     public void insert(E element) {
-        Objects.requireNonNull(element);
+        if (element == null) throw  new IllegalArgumentException("Inserting element can not be null.");
+        Node<E> newNode = getNext();
+        newNode.setValue(element);
         if (isEmpty()) {
-            head.setValue(element);
+            head = newNode;
             last = head;
             size = 1;
         } else {
-            Node<E> newNode = getNext();
-            newNode.setValue(element);
             bobUp(newNode);
-
             if (size > capacity) {
                 if (newNode.getTop().getLeft() == newNode) {
                     newNode.getTop().setLeft(null);
@@ -169,6 +172,7 @@ public class LinkedPriorityQueue<E extends Comparable<E>> implements IPriorityQu
 
     @Override
     public E remove() {
+        if (isEmpty()) return null;
         E removing = head.value;
         if (size == 1) {
             size--;
@@ -176,8 +180,8 @@ public class LinkedPriorityQueue<E extends Comparable<E>> implements IPriorityQu
             last = null;
         } else {
             swap(head, last);
-            sink(head);
             removeLast();
+            sink(head);
         }
 
         return removing;
@@ -201,6 +205,9 @@ public class LinkedPriorityQueue<E extends Comparable<E>> implements IPriorityQu
     }
 
     private Node<E> getNext() {
+
+        if (isEmpty()) return new Node<>();
+
         int m = size + 1;
         Node<E> next = head;
 
@@ -234,6 +241,8 @@ public class LinkedPriorityQueue<E extends Comparable<E>> implements IPriorityQu
             m = m >>> 1;
         }
 
+        if (!next.hasLeaves()) return next;
+
         if (m % 2 == 0) {
             return next.getLeft();
         } else {
@@ -248,13 +257,13 @@ public class LinkedPriorityQueue<E extends Comparable<E>> implements IPriorityQu
         } else {
             lastTop.setRight(null);
         }
-        last = findLast();
         size--;
+        last = findLast();
     }
 
     private void bobUp(Node<E> element) {
         while (element.getTop() != null
-                && element.getTop().getValue().compareTo(element.getValue()) * order > 0) {
+                && element.getTop().getValue().compareTo(element.getValue()) * order < 0) {
             swap(element, element.getTop());
             element = element.getTop();
         }
@@ -287,6 +296,6 @@ public class LinkedPriorityQueue<E extends Comparable<E>> implements IPriorityQu
         if (n1 == null || n2 == null) return;
         E temp = n2.getValue();
         n2.setValue(n1.getValue());
-        n2.setValue(temp);
+        n1.setValue(temp);
     }
 }
