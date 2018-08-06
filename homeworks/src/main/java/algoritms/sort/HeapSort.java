@@ -23,7 +23,7 @@ public class HeapSort<E extends Comparable<E>> implements SortArrayAlg<E> {
         if (!validate(array)) {
             throw new IllegalArgumentException("The sorting array must not contain nulls.");
         }
-//        shuffle.shuffle(array);
+        shuffle.shuffle(array);
 
         buildHeap(array, 0, array.length - 1);
 
@@ -76,8 +76,8 @@ public class HeapSort<E extends Comparable<E>> implements SortArrayAlg<E> {
             }
             if (array[topIndex].compareTo(array[popUpElementIndex]) * order < 0) {
                 swap(array, popUpElementIndex, topIndex);
+                sink(array, popUpElementIndex, high);
             }
-            sink(array, popUpElementIndex, high);
             topIndex = topIndex - 1;
             leftIndex = topIndex  * 2 - (low - 1);
             rightIndex = leftIndex + 1;
